@@ -1,0 +1,101 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class StudentGradeManager {
+    // Store grades as a list of doubles
+    private ArrayList<Double> grades = new ArrayList<>();
+    private String studentName;
+
+    // Constructor to set student's name
+    public StudentGradeManager(String studentName) {
+        this.studentName = studentName;
+    }
+
+    // Method to add a grade
+    public void addGrade(double grade) {
+        if (grade >= 0 && grade <= 100) {
+            grades.add(grade);
+        } else {
+            System.out.println("Invalid grade! Please enter a value between 0 and 100.");
+        }
+    }
+
+    // Method to calculate the average grade
+    public double calculateAverage() {
+        if (grades.isEmpty()) {
+            return 0;
+        }
+        double sum = 0;
+        for (double grade : grades) {
+            sum += grade;
+        }
+        return sum / grades.size();
+    }
+
+    // Method to determine letter grade
+    public String getLetterGrade(double average) {
+        if (average >= 90) {
+            return "A";
+        } else if (average >= 80) {
+            return "B";
+        } else if (average >= 70) {
+            return "C";
+        } else if (average >= 60) {
+            return "D";
+        } else {
+            return "F";
+        }
+    }
+
+    // Method to calculate GPA (assuming 4.0 scale)
+    public double calculateGPA(double average) {
+        if (average >= 90) {
+            return 4.0;
+        } else if (average >= 80) {
+            return 3.0;
+        } else if (average >= 70) {
+            return 2.0;
+        } else if (average >= 60) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+
+    // Method to display the overall student report
+    public void displayReport() {
+        double average = calculateAverage();
+        System.out.println("\nStudent: " + studentName);
+        System.out.println("Average Grade: " + average);
+        System.out.println("Letter Grade: " + getLetterGrade(average));
+        System.out.println("GPA: " + calculateGPA(average));
+    }
+
+    // Main method for interaction with user
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Get student's name
+        System.out.print("Enter student name: ");
+        String studentName = scanner.nextLine();
+
+        // Initialize StudentGradeManager with the student's name
+        StudentGradeManager manager = new StudentGradeManager(studentName);
+        
+        // Input grades
+        System.out.println("Enter grades for different subjects (Enter -1 to stop): ");
+        while (true) {
+            System.out.print("Enter grade: ");
+            double grade = scanner.nextDouble();
+            if (grade == -1) {
+                break;
+            }
+            manager.addGrade(grade);
+        }
+        
+        // Display student report
+        manager.displayReport();
+        
+        scanner.close();
+    }
+}
